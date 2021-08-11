@@ -48,6 +48,7 @@ def make_new_student(first_name, last_name, github):
     VALUES (:first_name, :last_name, :github)
     """
     db.session.execute(QUERY, {'first_name': first_name,
+
                                 'last_name': last_name,
                                 'github': github})
     db.session.commit()
@@ -71,7 +72,7 @@ def get_project_by_title(title):
 
     print(row)
 
-    print("Project Title: {}\nDesctiprion: {} \n Max Grade:{}".format(row[1], row[2], row[3]))
+    print("Project Title: {}\nDescription: {} \n Max Grade:{}".format(row[1], row[2], row[3]))
 
 def get_grade_by_github_title(github, title):
     """Print grade student received for a project."""
@@ -94,7 +95,17 @@ def get_grade_by_github_title(github, title):
 
 def assign_grade(github, title, grade):
     """Assign a student a grade on an assignment and print a confirmation."""
-    pass
+   
+    QUERY = """
+        INSERT INTO grades (student_github, project_title, grade)
+        VALUES (:student_github, :project_title, :grade)
+        """
+
+    db.session.execute(QUERY, {'student_github': github,
+    
+                                'project_title': title,
+                                'grade': grade})
+    db.session.commit()
 
 
 def handle_input():
